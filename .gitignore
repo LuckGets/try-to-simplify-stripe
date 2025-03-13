@@ -1,0 +1,29 @@
+# node_modules in any subfolder
+**/node_modules
+
+# environment files in both front/ and api/
+**/.env
+**/.env.*
+
+# Logs files
+**/logs
+**/*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Ignore build outputs in both front/ and api/
+**/dist
+**/build
+
+# Ignore Editor-specific files
+.DS_Store
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
