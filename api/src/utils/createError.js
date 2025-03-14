@@ -12,7 +12,7 @@ function createError(status, name, message, body) {
   error.status = errStatus;
   error.name = errName;
 
-  throw error;
+  return error;
 }
 
 module.exports = { createError };
