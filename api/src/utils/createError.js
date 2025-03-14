@@ -2,7 +2,7 @@
  * @param {string | null} message
  * @param {number | null} status
  */
-function createError(status, name, message) {
+function createError(status, name, message, body) {
   const errName = name ?? "Internal server error";
   const errMsg =
     message ??
@@ -11,7 +11,8 @@ function createError(status, name, message) {
   const error = new Error(errMsg);
   error.status = errStatus;
   error.name = errName;
+
   throw error;
 }
 
-module.exports = createError;
+module.exports = { createError };
