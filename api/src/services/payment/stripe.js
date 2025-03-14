@@ -1,13 +1,13 @@
 /**
  * @typedef {{
  *            price_data:{
- *             currency: "thb",
+ *              currency: "thb",
  *              product_data:{
- *                 name: string
+ *                  name: string
  *              },
- *              unit_amount: number,
+ *                  unit_amount: number,
  *            },
- *            quantity: number
+ *              quantity: number
  *          }}
  */
 var LineItem;
@@ -36,6 +36,22 @@ function createLineItems(products) {
     },
     quantity: product.amount,
   }));
+}
+
+/**
+ *
+ * @param {Array<ProductsDetail>} products
+ * @returns {Array<LineItem>}
+ *
+ * เราสามารถสร้างสินค้าและราคาของเราเก็บไว้ที่ stripe ได้
+ * ซึ่งเราจะสามารถนำ price_id ที่ stripe สร้างมาใส่เป็นรายละเอียดสินค้าได้
+ * https://docs.stripe.com/payments/existing-customers?platform=web&ui=embedded-form
+ *
+ */
+function createLineItemsViaStripe(products) {
+  const priceId = [];
+  for (let product of products) {
+  }
 }
 
 module.exports = {
