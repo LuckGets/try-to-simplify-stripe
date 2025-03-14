@@ -22,7 +22,7 @@ model Customer {
 model Product {
   id        Int         @id @default(autoincrement())
   name      String
-  img       String
+  image     String
   price     Decimal     @db.Decimal(10, 2)
   createdAt DateTime    @default(now()) @map("created_at")
   updatedAt DateTime    @updatedAt @map("updated_at")
