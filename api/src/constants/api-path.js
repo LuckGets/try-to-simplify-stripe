@@ -1,6 +1,6 @@
 module.exports = {
   payment: {
     base: "/payments",
-    createCheckoutSession: "/create-checkout-session",
+    createPaymentIntent: "/create-payment-intent",
   },
 };
