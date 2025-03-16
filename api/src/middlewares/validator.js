@@ -1,5 +1,5 @@
 const { ZodSchema } = require("zod");
-const { validator } = require("../utils/validator");
+const { validator, formatZodError } = require("../utils/validator");
 
 /**
  * @typedef {{
@@ -17,10 +17,19 @@ var SchemaObjList;
  */
 function validatorMiddleware(schemaListObj) {
   return function (req, res, next) {
-    schemaListObj.forEach((schemaObj) => {
-      const value = req.body[schemaObj.bodyField];
-      validator(value, schemaObj.schema, res);
-    });
+    for (let schemaAndObj of schemaListObj) {
+      const { bodyField, schema } = schemaAndObj;
+      const value = req.body[bodyField];
+
+      const { success, error } = schema.safeParse(value);
+
+      if (!success) {
+        return res.status(400).json({
+          message: "Invalid Request body.",
+          details: formatZodError(error),
+        });
+      }
+    }
     next();
   };
 }

@@ -1,8 +1,8 @@
-import { Axios } from "axios";
+import axios from "axios";
 
-const axios = new Axios();
+const instance = axios.create({
+  // Your backend base url endpoint
+  baseURL: "http://localhost:8080",
+});
 
-// Your backend base url endpoint
-axios.defaults.baseURL = "http://localhost:8080";
-
-export default axios;
+export default instance;

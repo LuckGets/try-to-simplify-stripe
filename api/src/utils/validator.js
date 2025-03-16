@@ -1,24 +1,4 @@
-const { ZodSchema, ZodError } = require("zod");
-const { createError } = require("./createError");
-
-/**
- *
- * @param {unknown} data
- * @param {ZodSchema} schema
- * @param {Response} res
- */
-function validator(data, schema, res) {
-  const { success, error } = schema.safeParse(data);
-
-  if (!success) {
-    return res.status(400).json({
-      message: "Invalid Request body.",
-      details: formatZodError(error),
-    });
-  }
-
-  return;
-}
+const { ZodError } = require("zod");
 
 /**
  *
@@ -36,4 +16,4 @@ function formatZodError(errors) {
   return string;
 }
 
-module.exports = { validator };
+module.exports = { formatZodError };

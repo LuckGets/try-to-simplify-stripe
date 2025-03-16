@@ -1,6 +1,9 @@
 module.exports = {
-  payment: {
+  payments: {
     base: "/payments",
     createPaymentIntent: "/create-payment-intent",
+  },
+  products: {
+    base: "/products",
   },
 };

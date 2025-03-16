@@ -5,13 +5,14 @@ const {
 const stripe = require("../stripe");
 const { createError } = require("../utils/createError");
 
+const paymentContoller = {};
 /**
  *
  * @param {Request} req
  * @param {Response} res
  * @param {import("express").NextFunction} next
  */
-async function createPaymentIntent(req, res, next) {
+paymentContoller.createPaymentIntent = async (req, res, next) => {
   const { products } = req.body;
 
   /**
@@ -40,8 +41,6 @@ async function createPaymentIntent(req, res, next) {
   // หา total price ของสิ่งที่ลูกค้าต้องการจะซื้อ
   const totalPrice = calculateTotalPriceOfProducts(products, allProductsDetail);
 
-  console.log(totalPrice);
-
   const paymentIntent = await stripe.paymentIntents.create({
     amount: totalPrice * 100,
     currency: "thb",
@@ -52,8 +51,6 @@ async function createPaymentIntent(req, res, next) {
   // ซึ่ง จะมีหน้าตา เป็น string ยาวๆ เช่น  pi_3R2X6ZFYtLJbUQDv1QvTJo1a_secret_cEqW2oClLyRyfWniDUYwYpYcN
 
   return res.status(200).json({ clientSecret: paymentIntent.client_secret });
-}
-
-const paymentContoller = { createPaymentIntent };
+};
 
 module.exports = paymentContoller;

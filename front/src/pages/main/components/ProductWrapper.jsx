@@ -1,27 +1,30 @@
 import BuyMe from "./BuyMe";
-
-const products = [
-  {
-    id: "1",
-    name: "1",
-    price: 100,
-    image: "https://picsum.photos/id/237/200/300",
-  },
-  {
-    id: "2",
-    name: "2",
-    price: 4000,
-    image: "https://picsum.photos/id/100/200/300",
-  },
-];
+import { useFetch } from "../../../hooks/useFetch";
+import productsApi from "../../../api/product";
 
 export function ProductWrapper() {
+  const { data: axiosProduct, isLoading } = useFetch(
+    productsApi.getManyProducts
+  );
+
+  const { products } = axiosProduct?.data || [];
+
+  if (isLoading) return <>Loading...</>;
+
   return (
     <>
       <div className="grid grid-cols-2">
-        {products.map((item) => (
-          <BuyMe image={item.image} name={item.name} price={item.price} />
-        ))}
+        {products &&
+          products.length > 0 &&
+          products.map((item) => (
+            <BuyMe
+              key={item.id}
+              id={item.id}
+              image={item.image}
+              name={item.name}
+              price={item.price}
+            />
+          ))}
       </div>
     </>
   );

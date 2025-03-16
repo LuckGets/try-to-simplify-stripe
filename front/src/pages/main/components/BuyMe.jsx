@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { WEB_PATH } from "../../../constant/path";
 
-export default function BuyMe({ name, price, image }) {
+export default function BuyMe({ id, name, price, image }) {
   const navigate = useNavigate();
 
   return (
@@ -11,7 +11,7 @@ export default function BuyMe({ name, price, image }) {
         <p className="text-2xl text-emerald-800">Product price: {price}</p>
         <img src={image} />
         <button
-          onClick={() => navigate(WEB_PATH.checkout)}
+          onClick={() => navigate(`${WEB_PATH.checkout}/${id}`)}
           className="text-2xl bg-green-500 text-white w-full hover:cursor-pointer"
         >
           BUY ME

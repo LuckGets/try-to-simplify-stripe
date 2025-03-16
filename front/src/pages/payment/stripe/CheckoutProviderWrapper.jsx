@@ -1,40 +1,39 @@
-import { use, useEffect, useState } from "react";
-import stripe from "./stripe";
-import { CheckoutProvider } from "@stripe/react-stripe-js";
-import CheckoutForm from "./CheckoutForm";
+import { useCallback, useEffect, useState } from "react";
 import paymentApi from "../../../api/payment";
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import { useParams } from "react-router-dom";
+import CheckoutForm from "./CheckoutForm";
+
+const stripe = loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
 
 export default function CheckoutProviderWrapper() {
-  const [clientSecret, setClientSecret] = useEffect(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const { id } = useParams();
+  const [clientSecret, setClientSecret] = useState(null);
 
-  const retreiveStripeClientSecret = async () => {
-    setIsLoading(true);
-    try {
-      const { data: respData } = await paymentApi.createCheckoutSession();
-      if (respData) setClientSecret(respData);
-    } catch (err) {
-      console.error(err);
-      setError(true);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const fetchClientSecret = useCallback(async () => {
+    const resp = await paymentApi.createCheckoutSession(Number(id), 1);
+    console.log(resp);
+
+    if (resp?.data?.clientSecret) setClientSecret(resp.data.clientSecret);
+  }, [id]);
 
   useEffect(() => {
-    retreiveStripeClientSecret;
-  }, []);
+    fetchClientSecret();
+  }, [fetchClientSecret]);
 
-  if (isLoading) return <>Loading...</>;
+  // const { data, isLoading, isError, error } = useFetch(fetchClientSecret);
 
-  if (error) return <>There is an error occur while fetching data.</>;
+  // if (isLoading) return <>Loading...</>;
+
+  // if (isError && error)
+  //   return <>There is an error occur while fetching data.</>;
 
   if (clientSecret) {
     return (
-      <CheckoutProvider stripe={stripe} options={{ clientSecret }}>
+      <Elements stripe={stripe} options={{ clientSecret }}>
         <CheckoutForm />
-      </CheckoutProvider>
+      </Elements>
     );
   }
 

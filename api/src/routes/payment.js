@@ -7,7 +7,7 @@ const paymentRouter = require("express").Router();
 
 // Create checkout session
 paymentRouter.post(
-  apiPath.payment.createPaymentIntent,
+  apiPath.payments.createPaymentIntent,
   validatorMiddleware([{ schema: productSchema, bodyField: "products" }]),
   paymentContoller.createPaymentIntent
 );

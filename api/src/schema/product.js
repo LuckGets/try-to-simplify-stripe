@@ -2,8 +2,8 @@ const z = require("zod");
 
 const productSchema = z
   .object({
-    productId: z.coerce.number(),
-    amount: z.coerce.number(),
+    productId: z.number(),
+    amount: z.number(),
   })
   .array()
   .nonempty();
